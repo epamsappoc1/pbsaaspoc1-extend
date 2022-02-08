@@ -1,0 +1,8 @@
+---
+applications:
+  - name: pbsaaspoc1-srv
+    path: .
+    memory: 256M
+    buildpacks:
+      - nodejs_buildpack
+    services:

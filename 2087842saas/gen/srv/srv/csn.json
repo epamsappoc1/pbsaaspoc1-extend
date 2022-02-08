@@ -1,0 +1,2162 @@
+{
+  "namespace": "Z_pbsaaspoc1.newfields",
+  "definitions": {
+    "Z_pbsaaspoc1.db.Z_UnitOfMesure": {
+      "kind": "entity",
+      "elements": {
+        "msehi": {
+          "@title": "{i18n>mesureCode}",
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "dimid": {
+          "@title": "{i18n>type}",
+          "type": "cds.String",
+          "length": 6
+        },
+        "isocode": {
+          "@title": "{i18n>ISOcode}",
+          "type": "cds.String",
+          "length": 3
+        },
+        "name": {
+          "@title": "{i18n>name}",
+          "type": "cds.String",
+          "length": 30
+        }
+      }
+    },
+    "CatalogService.Z_UnitOfMesure": {
+      "kind": "entity",
+      "@readonly": true,
+      "@restrict": [
+        {
+          "to": "Viewer"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "Z_pbsaaspoc1.db.Z_UnitOfMesure"
+            ]
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "msehi": {
+          "@title": "{i18n>mesureCode}",
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "dimid": {
+          "@title": "{i18n>type}",
+          "type": "cds.String",
+          "length": 6
+        },
+        "isocode": {
+          "@title": "{i18n>ISOcode}",
+          "type": "cds.String",
+          "length": 3
+        },
+        "name": {
+          "@title": "{i18n>name}",
+          "type": "cds.String",
+          "length": 30
+        }
+      }
+    },
+    "pbsaaspoc1.db": {
+      "kind": "context"
+    },
+    "pbsaaspoc1.db.Sales": {
+      "kind": "entity",
+      "elements": {
+        "salesUUID": {
+          "@Core.Computed": true,
+          "@odata.Type": "Edm.String",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "ID": {
+          "type": "cds.Integer"
+        },
+        "region": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "country": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "org": {
+          "type": "cds.String",
+          "length": 4
+        },
+        "amount": {
+          "type": "cds.Integer"
+        },
+        "comments": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "criticality": {
+          "type": "cds.Integer"
+        },
+        "toProduct": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "pbsaaspoc1.db.Products",
+          "on": [
+            {
+              "ref": [
+                "toProduct",
+                "toSales"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Z_city": {
+          "type": "cds.String",
+          "length": 30
+        },
+        "Z_phone": {
+          "type": "cds.String",
+          "length": 20
+        },
+        "Z_totalAmount": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "Z_totalAmountWeight": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2,
+          "default": {
+            "val": 0
+          }
+        }
+      }
+    },
+    "pbsaaspoc1.db.Products": {
+      "kind": "entity",
+      "includes": [
+        "managed"
+      ],
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "productUUID": {
+          "@Core.Computed": true,
+          "@odata.Type": "Edm.String",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "productID": {
+          "type": "cds.String"
+        },
+        "height": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 3
+        },
+        "depth": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 3
+        },
+        "width": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 3
+        },
+        "price": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "taxRate": {
+          "type": "cds.Decimal",
+          "precision": 5,
+          "scale": 2
+        },
+        "productNetAmount": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "productTaxAmount": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "productGrossAmount": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "toProductGroup": {
+          "type": "cds.Association",
+          "target": "pbsaaspoc1.db.ProductGroups",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "toSales": {
+          "type": "cds.Association",
+          "target": "pbsaaspoc1.db.Sales",
+          "keys": [
+            {
+              "ref": [
+                "salesUUID"
+              ]
+            }
+          ]
+        },
+        "Z_weight": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "Z_toUOM": {
+          "type": "cds.Association",
+          "target": "Z_pbsaaspoc1.db.Z_UnitOfMesure",
+          "keys": [
+            {
+              "ref": [
+                "msehi"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "pbsaaspoc1.db.ProductGroups": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "name": {
+          "type": "cds.String",
+          "length": 20
+        },
+        "imageURL": {
+          "@UI.IsImageURL": true,
+          "type": "cds.String"
+        },
+        "imageType": {
+          "@Core.IsMediaType": true,
+          "type": "cds.String"
+        }
+      }
+    },
+    "CV_SALES": {
+      "kind": "entity",
+      "@cds.persistence.exists": true,
+      "@cds.persistence.calcview": true,
+      "elements": {
+        "REGION": {
+          "key": true,
+          "type": "cds.String",
+          "length": 100
+        },
+        "AMOUNT": {
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "CV_SESSION_INFO": {
+      "kind": "entity",
+      "@cds.persistence.exists": true,
+      "@cds.persistence.calcview": true,
+      "elements": {
+        "ITEM": {
+          "key": true,
+          "type": "cds.String",
+          "length": 5000
+        },
+        "VALUE": {
+          "type": "cds.String",
+          "length": 5000
+        }
+      }
+    },
+    "CatalogService": {
+      "@source": "node_modules/_base/srv/catalog-service.cds",
+      "kind": "service",
+      "@path": "/catalog",
+      "@requires": "authenticated-user",
+      "@impl": "./extensions.js"
+    },
+    "CatalogService.Sales": {
+      "kind": "entity",
+      "@odata.draft.enabled": true,
+      "@Capabilities.Deletable": true,
+      "@Capabilities.Insertable": true,
+      "@restrict": [
+        {
+          "grant": [
+            "READ"
+          ],
+          "to": "Viewer"
+        },
+        {
+          "grant": [
+            "WRITE"
+          ],
+          "to": "Admin"
+        }
+      ],
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "country"
+          }
+        }
+      ],
+      "@UI.SelectionFields": [],
+      "@UI.LineItem": [
+        {
+          "Value": {
+            "=": "ID"
+          }
+        },
+        {
+          "Value": {
+            "=": "region"
+          }
+        },
+        {
+          "Value": {
+            "=": "country"
+          }
+        },
+        {
+          "Value": {
+            "=": "amount"
+          },
+          "Criticality": {
+            "=": "criticality"
+          }
+        },
+        {
+          "Value": {
+            "=": "comments"
+          }
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Label": "{i18n>boost}",
+          "Action": "CatalogService.boost",
+          "Inline": true
+        },
+        {
+          "Value": {
+            "=": "Z_city"
+          },
+          "Label": "City_1"
+        },
+        {
+          "Value": {
+            "=": "Z_phone"
+          },
+          "Label": "Phone"
+        },
+        {
+          "$Type": "UI.DataFieldForIntentBasedNavigation",
+          "SemanticObject": "models_semobj",
+          "Action": "manage",
+          "Label": "IntentNavigation",
+          "RequiresContext": true
+        },
+        {
+          "Value": {
+            "=": "Z_totalAmountWeight"
+          },
+          "Label": "Total Weight"
+        }
+      ],
+      "@UI.HeaderInfo.TypeName": "{i18n>country}",
+      "@UI.HeaderInfo.TypeNamePlural": "{i18n>countries}",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "country"
+      },
+      "@UI.HeaderInfo.Description.Value": {
+        "=": "ID"
+      },
+      "@UI.FieldGroup#Description.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "region"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "country"
+          }
+        },
+        {
+          "Value": {
+            "=": "Z_city"
+          },
+          "Label": "City"
+        },
+        {
+          "Value": {
+            "=": "Z_phone"
+          },
+          "Label": "Phone"
+        }
+      ],
+      "@UI.FieldGroup#Details.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "region"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "country"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "amount"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "comments"
+          }
+        },
+        {
+          "Value": {
+            "=": "Z_city"
+          },
+          "Label": "City"
+        },
+        {
+          "Value": {
+            "=": "Z_phone"
+          },
+          "Label": "Phone"
+        },
+        {
+          "Value": {
+            "=": "Z_totalAmountWeight"
+          },
+          "Label": "Total Weight"
+        }
+      ],
+      "@UI.Facets": [
+        {
+          "$Type": "UI.CollectionFacet",
+          "ID": "PODetails",
+          "Label": "{i18n>salesInfo}",
+          "Facets": [
+            {
+              "$Type": "UI.ReferenceFacet",
+              "Label": "{i18n>salesInfo}",
+              "Target": "@UI.FieldGroup#Details"
+            }
+          ]
+        },
+        {
+          "$Type": "UI.ReferenceFacet",
+          "Label": "{i18n>productsInfo}",
+          "Target": "toProduct/@UI.LineItem"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "pbsaaspoc1.db.Sales"
+            ]
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "salesUUID": {
+          "@Core.Computed": true,
+          "@odata.Type": "Edm.String",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "ID": {
+          "@title": "{i18n>ID}",
+          "@UI.HiddenFilter": true,
+          "type": "cds.Integer"
+        },
+        "region": {
+          "@title": "{i18n>region}",
+          "type": "cds.String",
+          "length": 100
+        },
+        "country": {
+          "@title": "{i18n>country}",
+          "type": "cds.String",
+          "length": 100
+        },
+        "org": {
+          "type": "cds.String",
+          "length": 4
+        },
+        "amount": {
+          "@title": "{i18n>amount}",
+          "type": "cds.Integer"
+        },
+        "comments": {
+          "@title": "{i18n>comments}",
+          "type": "cds.String",
+          "length": 100
+        },
+        "criticality": {
+          "type": "cds.Integer"
+        },
+        "toProduct": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CatalogService.Products",
+          "on": [
+            {
+              "ref": [
+                "toProduct",
+                "toSales"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Z_city": {
+          "@Common.SemanticObject": "app_semobj",
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 30
+        },
+        "Z_phone": {
+          "type": "cds.String",
+          "length": 20
+        },
+        "Z_totalAmount": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "Z_totalAmountWeight": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2,
+          "default": {
+            "val": 0
+          }
+        }
+      },
+      "actions": {
+        "boost": {
+          "kind": "action",
+          "@restrict": [
+            {
+              "to": "Admin"
+            }
+          ]
+        }
+      }
+    },
+    "CatalogService.Products": {
+      "kind": "entity",
+      "@Capabilities.Deletable": true,
+      "@Capabilities.Insertable": true,
+      "@restrict": [
+        {
+          "grant": [
+            "READ"
+          ],
+          "to": "Viewer"
+        },
+        {
+          "grant": [
+            "WRITE",
+            "DELETE"
+          ],
+          "to": "Admin"
+        }
+      ],
+      "@UI.SelectionFields": [
+        {
+          "=": "toProductGroup_ID"
+        }
+      ],
+      "@UI.PresentationVariant.SortOrder": [
+        {
+          "$Type": "Common.SortOrderType",
+          "Property": {
+            "=": "toProductGroup.name"
+          },
+          "Descending": false
+        },
+        {
+          "$Type": "Common.SortOrderType",
+          "Property": {
+            "=": "productID"
+          },
+          "Descending": false
+        }
+      ],
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "productUUID"
+          }
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "toProductGroup.imageURL"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "toProductGroup_ID"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "productID"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "price"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "taxRate"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "height"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "width"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "depth"
+          },
+          "@UI.Importance": {
+            "#": "High"
+          }
+        },
+        {
+          "Value": {
+            "=": "Z_weight"
+          },
+          "Label": "Weight"
+        }
+      ],
+      "@UI.HeaderInfo.TypeName": "Product",
+      "@UI.HeaderInfo.TypeNamePlural": "Products",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "toProductGroup_ID"
+      },
+      "@UI.HeaderFacets": [
+        {
+          "$Type": "UI.ReferenceFacet",
+          "Target": "@UI.FieldGroup#Description",
+          "@UI.Importance": {
+            "#": "Medium"
+          }
+        }
+      ],
+      "@UI.FieldGroup#Description.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "toProductGroup_ID"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "toProductGroup.imageURL"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "productID"
+          }
+        }
+      ],
+      "@UI.FieldGroup#Details.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "toProductGroup_ID"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "productID"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "price"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "taxRate"
+          }
+        }
+      ],
+      "@UI.FieldGroup#Details3.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "depth"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "width"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "height"
+          }
+        },
+        {
+          "Value": {
+            "=": "Z_weight"
+          },
+          "Label": "Weight"
+        }
+      ],
+      "@UI.FieldGroup#AdministrativeData.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "createdBy"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "createdAt"
+          }
+        }
+      ],
+      "@UI.Facets": [
+        {
+          "$Type": "UI.CollectionFacet",
+          "ID": "PODetails",
+          "Label": "{i18n>productInfo}",
+          "Facets": [
+            {
+              "$Type": "UI.ReferenceFacet",
+              "Label": "{i18n>priceInfo}",
+              "Target": "@UI.FieldGroup#Details"
+            },
+            {
+              "$Type": "UI.ReferenceFacet",
+              "Label": "{i18n>dimentionsInfo}",
+              "Target": "@UI.FieldGroup#Details3"
+            }
+          ]
+        },
+        {
+          "$Type": "UI.CollectionFacet",
+          "ID": "POAdmininfo",
+          "Label": "{i18n>adminInfo}",
+          "Facets": [
+            {
+              "$Type": "UI.ReferenceFacet",
+              "Label": "{i18n>adminInfo}",
+              "Target": "@UI.FieldGroup#AdministrativeData"
+            }
+          ]
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "pbsaaspoc1.db.Products"
+            ]
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "productUUID": {
+          "@title": "{i18n>productID}",
+          "@Core.Computed": true,
+          "@odata.Type": "Edm.String",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "productID": {
+          "@title": "{i18n>productID}",
+          "type": "cds.String"
+        },
+        "height": {
+          "@title": "{i18n>height}",
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 3
+        },
+        "depth": {
+          "@title": "{i18n>depth}",
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 3
+        },
+        "width": {
+          "@title": "{i18n>width}",
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 3
+        },
+        "price": {
+          "@title": "{i18n>price}",
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "taxRate": {
+          "@title": "{i18n>taxRate}",
+          "type": "cds.Decimal",
+          "precision": 5,
+          "scale": 2
+        },
+        "productNetAmount": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "productTaxAmount": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "productGrossAmount": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "toProductGroup": {
+          "@title": "{i18n>product}",
+          "@Common.Text": {
+            "=": "toProductGroup.name"
+          },
+          "@Common.TextArrangement": {
+            "#": "TextFirst"
+          },
+          "@Common.ValueList.CollectionPath": "ProductGroups",
+          "@Common.ValueList.Label": "Product Groups",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": "toProductGroup_ID",
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "name"
+            }
+          ],
+          "@Common.ValueList.SearchSupported": true,
+          "type": "cds.Association",
+          "target": "CatalogService.ProductGroups",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "toSales": {
+          "type": "cds.Association",
+          "target": "CatalogService.Sales",
+          "keys": [
+            {
+              "ref": [
+                "salesUUID"
+              ]
+            }
+          ]
+        },
+        "Z_weight": {
+          "@title": "{i18n>weight}",
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "Z_toUOM": {
+          "@Common.ValueList.CollectionPath": "Z_UnitOfMesure",
+          "@Common.ValueList.Label": "Product Groups",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": "Z_toUOM_msehi",
+              "ValueListProperty": "msehi"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "name"
+            }
+          ],
+          "@Common.ValueList.SearchSupported": true,
+          "type": "cds.Association",
+          "target": "CatalogService.Z_UnitOfMesure",
+          "keys": [
+            {
+              "ref": [
+                "msehi"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "CatalogService.ProductGroups": {
+      "kind": "entity",
+      "@restrict": [
+        {
+          "grant": [
+            "READ"
+          ],
+          "to": "Viewer"
+        },
+        {
+          "grant": [
+            "WRITE",
+            "DELETE"
+          ],
+          "to": "Admin"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "pbsaaspoc1.db.ProductGroups"
+            ]
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "name": {
+          "type": "cds.String",
+          "length": 20
+        },
+        "imageURL": {
+          "@UI.IsImageURL": true,
+          "type": "cds.String"
+        },
+        "imageType": {
+          "@Core.IsMediaType": true,
+          "type": "cds.String"
+        }
+      }
+    },
+    "CatalogService.VSales": {
+      "kind": "entity",
+      "@readonly": true,
+      "@restrict": [
+        {
+          "to": "Viewer"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "CV_SALES"
+            ]
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "REGION": {
+          "key": true,
+          "type": "cds.String",
+          "length": 100
+        },
+        "AMOUNT": {
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "CatalogService.SessionInfo": {
+      "kind": "entity",
+      "@readonly": true,
+      "@restrict": [
+        {
+          "to": "Viewer"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "CV_SESSION_INFO"
+            ]
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "ITEM": {
+          "key": true,
+          "type": "cds.String",
+          "length": 5000
+        },
+        "VALUE": {
+          "type": "cds.String",
+          "length": 5000
+        }
+      }
+    },
+    "CatalogService.topSales": {
+      "kind": "function",
+      "@restrict": [
+        {
+          "to": "Viewer"
+        }
+      ],
+      "params": {
+        "amount": {
+          "type": "cds.Integer"
+        }
+      },
+      "returns": {
+        "items": {
+          "type": "CatalogService.Sales"
+        }
+      }
+    },
+    "CatalogService.userScopes": {
+      "kind": "type",
+      "elements": {
+        "identified": {
+          "type": "cds.Boolean"
+        },
+        "authenticated": {
+          "type": "cds.Boolean"
+        },
+        "Viewer": {
+          "type": "cds.Boolean"
+        },
+        "Admin": {
+          "type": "cds.Boolean"
+        },
+        "ExtendCDS": {
+          "type": "cds.Boolean"
+        },
+        "ExtendCDSdelete": {
+          "type": "cds.Boolean"
+        }
+      }
+    },
+    "CatalogService.user": {
+      "kind": "type",
+      "elements": {
+        "user": {
+          "type": "cds.String"
+        },
+        "locale": {
+          "type": "cds.String"
+        },
+        "tenant": {
+          "type": "cds.String"
+        },
+        "scopes": {
+          "type": "CatalogService.userScopes"
+        }
+      }
+    },
+    "CatalogService.userInfo": {
+      "kind": "function",
+      "returns": {
+        "type": "CatalogService.user"
+      }
+    },
+    "TechnicalUserService": {
+      "@source": "node_modules/_base/srv/catalog-service.cds",
+      "kind": "service",
+      "@requires": "system-user"
+    },
+    "TechnicalUserService.Sales": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "pbsaaspoc1.db.Sales"
+          ]
+        }
+      },
+      "elements": {
+        "salesUUID": {
+          "@Core.Computed": true,
+          "@odata.Type": "Edm.String",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "ID": {
+          "type": "cds.Integer"
+        },
+        "region": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "country": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "org": {
+          "type": "cds.String",
+          "length": 4
+        },
+        "amount": {
+          "type": "cds.Integer"
+        },
+        "comments": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "criticality": {
+          "type": "cds.Integer"
+        },
+        "toProduct": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "TechnicalUserService.Products",
+          "on": [
+            {
+              "ref": [
+                "toProduct",
+                "toSales"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Z_city": {
+          "type": "cds.String",
+          "length": 30
+        },
+        "Z_phone": {
+          "type": "cds.String",
+          "length": 20
+        },
+        "Z_totalAmount": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "Z_totalAmountWeight": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2,
+          "default": {
+            "val": 0
+          }
+        }
+      }
+    },
+    "TechnicalUserService.Products": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "pbsaaspoc1.db.Products"
+          ]
+        }
+      },
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "productUUID": {
+          "@Core.Computed": true,
+          "@odata.Type": "Edm.String",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "productID": {
+          "type": "cds.String"
+        },
+        "height": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 3
+        },
+        "depth": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 3
+        },
+        "width": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 3
+        },
+        "price": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "taxRate": {
+          "type": "cds.Decimal",
+          "precision": 5,
+          "scale": 2
+        },
+        "productNetAmount": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "productTaxAmount": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "productGrossAmount": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "toProductGroup": {
+          "type": "cds.Association",
+          "target": "TechnicalUserService.ProductGroups",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "toSales": {
+          "type": "cds.Association",
+          "target": "TechnicalUserService.Sales",
+          "keys": [
+            {
+              "ref": [
+                "salesUUID"
+              ]
+            }
+          ]
+        },
+        "Z_weight": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2
+        },
+        "Z_toUOM": {
+          "type": "cds.Association",
+          "target": "Z_pbsaaspoc1.db.Z_UnitOfMesure",
+          "keys": [
+            {
+              "ref": [
+                "msehi"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "TechnicalUserService.ProductGroups": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "pbsaaspoc1.db.ProductGroups"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "name": {
+          "type": "cds.String",
+          "length": 20
+        },
+        "imageURL": {
+          "@UI.IsImageURL": true,
+          "type": "cds.String"
+        },
+        "imageType": {
+          "@Core.IsMediaType": true,
+          "type": "cds.String"
+        }
+      }
+    },
+    "Language": {
+      "kind": "type",
+      "@title": "{i18n>Language}",
+      "@description": "{i18n>LanguageCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Languages",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "Currency": {
+      "kind": "type",
+      "@title": "{i18n>Currency}",
+      "@description": "{i18n>CurrencyCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Currencies",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "Country": {
+      "kind": "type",
+      "@title": "{i18n>Country}",
+      "@description": "{i18n>CountryCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Countries",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "sap.common": {
+      "kind": "context"
+    },
+    "sap.common.Languages": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>LanguageCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Languages.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Languages.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Countries": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Currencies": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CurrencyCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "symbol": {
+          "@title": "{i18n>CurrencySymbol}",
+          "type": "cds.String",
+          "length": 5
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Currencies.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Currencies.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.CodeList": {
+      "kind": "aspect",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        }
+      }
+    },
+    "cuid": {
+      "kind": "aspect",
+      "elements": {
+        "ID": {
+          "@Core.Computed": true,
+          "@odata.Type": "Edm.String",
+          "key": true,
+          "type": "cds.UUID"
+        }
+      }
+    },
+    "managed": {
+      "kind": "aspect",
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        }
+      }
+    },
+    "temporal": {
+      "kind": "aspect",
+      "elements": {
+        "validFrom": {
+          "@cds.valid.from": true,
+          "type": "cds.Timestamp"
+        },
+        "validTo": {
+          "@cds.valid.to": true,
+          "type": "cds.Timestamp"
+        }
+      }
+    },
+    "User": {
+      "kind": "type",
+      "@title": "{i18n>UserID}",
+      "@description": "{i18n>UserID.Description}",
+      "type": "cds.String",
+      "length": 255
+    },
+    "extensible": {
+      "kind": "aspect",
+      "elements": {
+        "extensions__": {
+          "@cds.api.ignore": true,
+          "type": "cds.String"
+        }
+      }
+    },
+    "sap.common.Languages.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>LanguageCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        }
+      }
+    },
+    "sap.common.Countries.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    },
+    "sap.common.Currencies.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CurrencyCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    }
+  },
+  "extensions": [
+    {
+      "annotate": "CatalogService.Products",
+      "elements": {
+        "currencyCode_code": {
+          "@title": "{i18n>currency}"
+        }
+      }
+    },
+    {
+      "annotate": "cds.UUID",
+      "@Core.Computed": true,
+      "@odata.Type": "Edm.String"
+    }
+  ],
+  "meta": {
+    "creator": "CDS Compiler v2.11.4",
+    "flavor": "inferred"
+  },
+  "$version": "2.0"
+}

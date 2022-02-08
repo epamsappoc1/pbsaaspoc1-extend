@@ -1,0 +1,9 @@
+{
+  "name": "pbsaaspoc1",
+  "version": "0.1.0",
+  "description": "cds extension project",
+  "dependencies": {},
+  "engines": {
+    "node": ">=12.18"
+  }
+}
